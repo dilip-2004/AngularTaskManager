@@ -1,0 +1,63 @@
+
+<h1 style="text-align: center;">Welcome!</h1>
+<div class="login-container">
+  <h2>Login</h2>
+  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
+    <div class="form-group">
+      <label for="email">UserName</label>
+      <input 
+        type="text" 
+        id="userName" 
+        formControlName="userName" 
+        placeholder="Enter your UserName"
+        [class.is-invalid]="submitted && f['userName'].errors"
+      >
+      @if (submitted && f['userName'].errors) {
+        <div class="invalid-feedback">
+          @if (f['userName'].errors['required']) {
+            <div>userName is required</div>
+          }
+          @if (f['userName'].errors['minlength']) {
+            <div>userName must be at least 3 characters</div>
+          }
+          @if (f['userName'].errors['maxlength']) {
+            <div>userName must be less than 20 characters</div>
+          }
+        </div>
+      }
+    </div>
+
+    <div class="form-group">
+      <label for="userPassword">userPassword</label>
+      <input 
+        type="password" 
+        id="userPassword" 
+        formControlName="userPassword" 
+        placeholder="Enter your userPassword"
+        [class.is-invalid]="submitted && f['userPassword'].errors"
+      >
+      @if (submitted && f['userPassword'].errors) {
+        <div class="invalid-feedback">
+          @if (f['userPassword'].errors['required']) {
+            <div>userPassword is required</div>
+          }
+          @if (f['userPassword'].errors['minlength']) {
+            <div>userPassword must be at least 3 characters</div>
+          }
+          @if (f['userPassword'].errors['maxlength']) {
+            <div>userPassword must be less than 20 characters</div>
+          }
+        </div>
+      }
+    </div>
+
+    @if (error) {
+      <div class="alert alert-danger">
+        {{ error }}
+      </div>
+    }
+
+    <button type="submit" class="btn btn-primary">Login</button>
+    <button  class="btn btn-primary" (click)="navigateToSignup()">SignUp</button>
+  </form>
+</div>

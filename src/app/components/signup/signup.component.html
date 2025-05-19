@@ -1,0 +1,68 @@
+
+<h1 style="text-align: center;">Welcome!</h1>
+<form [formGroup]="signupForm" (ngSubmit)="onSubmit()" class="signup-form">
+  <div class="form-group">
+    <label for="username">Username</label>
+    <input 
+      id="username"
+      type="text"
+      placeholder="Enter username"
+      formControlName="userName"
+      [class.invalid]="submitted && signupForm.get('userName')?.invalid"
+    >
+    <div class="error-message">
+      @if (submitted && signupForm.get('userName')?.invalid) {
+        @if (signupForm.get('userName')?.hasError('required')) {
+          <p>Username is required</p>
+        }
+        @if (signupForm.get('userName')?.hasError('minlength')) {
+          <p>Username must be at least 3 characters</p>
+        }
+      }
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="password">Password</label>
+    <input 
+      id="password"
+      type="password" 
+      placeholder="Enter password"
+      formControlName="userPassword"
+      [class.invalid]="submitted && signupForm.get('userPassword')?.invalid"
+    >
+    <div class="error-message">
+      @if (submitted && signupForm.get('userPassword')?.invalid) {
+        @if (signupForm.get('userPassword')?.hasError('required')) {
+          <p>Password is required</p>
+        }
+        @if (signupForm.get('userPassword')?.hasError('minlength')) {
+          <p>Password must be at least 8 characters</p>
+        }
+        @if (signupForm.get('userPassword')?.hasError('maxlength')) {
+          <p>Password must be less than 20 characters</p>
+        }
+      }
+    </div>
+  </div>
+
+  @if (error) {
+    <div class="alert error">{{error}}</div>
+  }
+  
+  @if (success) {
+    <div class="alert success">{{success}}</div>
+  }
+
+  <button type="submit" [disabled]="isLoading">
+    @if (isLoading) {
+      <span>Creating Account...</span>
+    } @else {
+      <span>Sign Up</span>
+    }
+  </button>
+</form>
+
+<div class="login-redirect">
+  Already have an account? <a (click)="navigateToLogin()">Login here</a>
+</div>

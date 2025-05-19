@@ -1,0 +1,55 @@
+<h1 style="text-align: center;">Task Manager</h1>
+
+<div class="todo-container">
+  <div class="todo-header">
+    <button class="logout-btn" (click)="logout()">Logout</button>
+  </div>
+  <div class="task-form">
+    <form [formGroup]="taskForm" (ngSubmit)="createTask()">
+      <div class="form-group">
+        <label for="taskName">Task Name</label>
+        <input type="text" id="taskName" placeholder="Task name" formControlName="taskName">
+        <div class="error-message">
+          <p *ngIf="submitted && taskForm.get('taskName')?.hasError('required')">Task name is required</p>
+          <p *ngIf="submitted && taskForm.get('taskName')?.hasError('minlength')">Task name must be at least 2 characters</p>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="taskDescription">Task Description</label>
+        <input type="text" id="taskDescription" placeholder="Task description" formControlName="taskDescription">
+        <div class="error-message">
+          <p *ngIf="submitted && taskForm.get('taskDescription')?.hasError('required')">Task description is required</p>
+          <p *ngIf="submitted && taskForm.get('taskDescription')?.hasError('minlength')">Task description must be at least 2 characters</p>
+        </div>
+      </div>
+
+      <button type="submit" class="add-btn">Add Task</button>
+    </form>
+
+    <div *ngIf="success" class="alert success-alert">{{ success }}</div>
+    <div *ngIf="error" class="alert error-alert">{{ error }}</div>
+    <div *ngIf="isLoading" class="loading-spinner">Loading...</div>
+
+    <h3>My Tasks</h3>
+    <div class="task-list">
+      @for (task of tasks; track task.id) {
+        <div class="task-item" [ngClass]="{ 'completed': task.isCompleted }">
+          <div class="task-details">
+            <h4>{{ task.name }}</h4>
+            <p>{{ task.description }}</p>
+            <p>Status: 
+              <span [style.color]="task.isCompleted ? 'green' : 'red'">
+                {{ task.isCompleted ? 'Completed' : 'Pending' }}
+              </span>
+            </p>
+          </div>
+          <div class="task-actions">
+            <button (click)="updateTask(task.id)">update</button>
+            <button class="delete-btn" (click)="deleteTask(task.id)">Delete</button>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+</div>
